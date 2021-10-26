@@ -4,19 +4,23 @@ public class merchandiseItem {
 
 private String Name;
 private itemType taxibleType;
-private Double price;
+private double price;
 
-    public merchandiseItem(String Name){
-
+    public merchandiseItem(String Name, double price, itemType Type){
+        taxibleType = Type;
+        this.Name = Name;
+        this.price = price;
     }
-
-
 
 
 
     public String getName()
     {
-        return toString();
+        return Name;
     }
+
+    public double getPrice() { return price; }
+
+    public itemType getTaxibleType() {return taxibleType;}
 
 }

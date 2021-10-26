@@ -9,7 +9,20 @@ public class TaxExemptCustomer extends Customer {
     }
 
     public double PayForOrder(ArrayList<merchandiseItem> itemsinOrder) {
-        return 0;
-        //Fix me
+        var sum = 0;
+        for(var item: itemsinOrder){
+            sum += item.getPrice();
+        }
+        return sum;
+
+    }
+    private String Name;
+    public String getName() {
+        return Name;
+    }
+
+    @Override
+    public void arrangeDelivery() {
+        System.out.println("Please contact " + Name + " on the day of deliverly.");
     }
 }

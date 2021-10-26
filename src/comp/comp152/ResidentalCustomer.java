@@ -4,13 +4,17 @@ import java.util.ArrayList;
 
 public class ResidentalCustomer extends Customer {
 
-    public ResidentalCustomer(String custName){
+    public ResidentalCustomer(String custName) {
         super(custName);
     }
 
-    public double PayForOrder(ArrayList<merchandiseItem> itemsinOrder ){
-     return 0;
-     //Fix me
-    }
+    public double PayForOrder(ArrayList<merchandiseItem> itemsinOrder) {
+        var sum = 0;
+        for (var item : itemsinOrder) {
+            sum += item.getPrice();
+        }
+        return sum;
 
+    }
 }
+

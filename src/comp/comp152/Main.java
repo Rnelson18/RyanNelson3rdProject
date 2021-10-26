@@ -11,11 +11,11 @@ import java.util.Scanner;
 public class Main {
     //Ryan Nelson
     private ArrayList<Order> Orders;
-    private ArrayList<Customer> Customers;
+    private ArrayList<String> Customers;
 
     public Main () {
         Orders = new ArrayList<Order>();
-        Customers = new ArrayList<Customer>();
+        Customers = new ArrayList<String>();
     }
 
 
@@ -38,7 +38,7 @@ public class Main {
                     addCustomer(inputReader);
                     break;
                 case 2:
-                    var selectedCustomer =selectCustomer(inputReader);
+                    Optional<String> selectedCustomer =selectCustomer(inputReader);
                     if(selectedCustomer.isPresent())
                         manageCustomer(selectedCustomer.get());
                     break;
@@ -76,12 +76,18 @@ public class Main {
         var allLines = Files.readAllLines(fullPathName);
         for(var line: allLines){
             var splitLine = line.split(",");
-            var currentCustomer = new Customer(splitLine[0], Integer.parseInt(splitLine[1]));
+            if (splitLine[2].equals("Residential"){
+            }
+            Object params;
+            var currentCustomer = new ResidentialCustomer(params);
             Customers.add(currentCustomer);
+
+
+
         }
     }
 
-    public void makeOrder(ShippingAddress address, Customer cust)
+    public void makeOrder(ShippingAddress address, String cust)
     {
         var newOrder = new Order(address,cust);
         Orders.add(newOrder);
@@ -94,16 +100,16 @@ public class Main {
         System.out.println("Adding Customer........");
         System.out.print("Enter the new Customers name:");
         var newName = inputReader.nextLine();
-        var newCustomer = new Customer(newName);
+        var newCustomer = (newName);
         Customers.add(newCustomer);
         System.out.println(".....Finished adding new Customer Record");
     }
 
-    public Optional<Customer> selectCustomer(Scanner reader)
+    public Optional<String> selectCustomer(Scanner reader)
     {
         System.out.print("Enter the ID of the customer to select:");
         var enteredID = reader.nextInt();
-        for(var currentCustomer: Customers){
+        for(String currentCustomer: Customers){
             if(currentCustomer.getCustomerID()==enteredID)
                 return Optional.of(currentCustomer);
         }
@@ -112,7 +118,7 @@ public class Main {
         return Optional.empty();
     }
 
-    public void manageCustomer(Customer selectedCustomer)
+    public void manageCustomer(String selectedCustomer)
     {
         Scanner secondScanner = new Scanner(System.in);
         while(true){
@@ -130,7 +136,7 @@ public class Main {
         }
     }
 
-    private ShippingAddress pickAddress(Scanner secondScanner, Customer selectedCustomer) {
+    private ShippingAddress pickAddress(Scanner secondScanner, String selectedCustomer) {
         var customerAddresses = selectedCustomer.getAddresses();
         if (customerAddresses.size() ==0){
             System.out.println("This customer has no addresses on file, please add an address");
@@ -156,7 +162,7 @@ public class Main {
             return customerAddresses.get(addressNum);
     }
 
-    private void addAddress(Scanner secondScanner, Customer selectedCustomer) {
+    private void addAddress(Scanner secondScanner, String selectedCustomer) {
         System.out.println("Adding new address for "+ selectedCustomer.getName());
         secondScanner.nextLine();
         System.out.print("Enter Address Line 1:");
