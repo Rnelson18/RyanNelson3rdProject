@@ -2,6 +2,8 @@ package comp.comp152;
 
 public class merchandiseItem {
 
+
+    //Create Variables
 private String Name;
 private itemType taxibleType;
 private double price;

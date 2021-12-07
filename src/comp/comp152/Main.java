@@ -11,11 +11,11 @@ import java.util.Scanner;
 public class Main {
     //Ryan Nelson
     private ArrayList<Order> Orders;
-    private ArrayList<String> Customers;
+    private ArrayList<Object> Customers;
 
     public Main () {
         Orders = new ArrayList<Order>();
-        Customers = new ArrayList<String>();
+        Customers = new ArrayList<Object>();
     }
 
 
@@ -38,7 +38,7 @@ public class Main {
                     addCustomer(inputReader);
                     break;
                 case 2:
-                    Optional<String> selectedCustomer =selectCustomer(inputReader);
+                    Optional<Object> selectedCustomer =selectCustomer(inputReader);
                     if(selectedCustomer.isPresent())
                         manageCustomer(selectedCustomer.get());
                     break;
@@ -76,10 +76,10 @@ public class Main {
         var allLines = Files.readAllLines(fullPathName);
         for(var line: allLines){
             var splitLine = line.split(",");
-            if (splitLine[2].equals("Residential"){
+            if (splitLine[2].equals("Residential")){
             }
             Object params;
-            var currentCustomer = new ResidentialCustomer(params);
+            Object currentCustomer = new ResidentalCustomer(params);
             Customers.add(currentCustomer);
 
 
@@ -87,7 +87,7 @@ public class Main {
         }
     }
 
-    public void makeOrder(ShippingAddress address, String cust)
+    public void makeOrder(ShippingAddress address, Object cust)
     {
         var newOrder = new Order(address,cust);
         Orders.add(newOrder);
@@ -96,6 +96,7 @@ public class Main {
 
     public void addCustomer(Scanner inputReader)
     {
+        //Adding customer
         inputReader.nextLine();
         System.out.println("Adding Customer........");
         System.out.print("Enter the new Customers name:");
@@ -104,13 +105,13 @@ public class Main {
         Customers.add(newCustomer);
         System.out.println(".....Finished adding new Customer Record");
     }
-
-    public Optional<String> selectCustomer(Scanner reader)
+    //Enter the ID
+    public Optional<Object> selectCustomer(Scanner reader)
     {
         System.out.print("Enter the ID of the customer to select:");
         var enteredID = reader.nextInt();
-        for(String currentCustomer: Customers){
-            if(currentCustomer.getCustomerID()==enteredID)
+        for(Object currentCustomer: Customers){
+            if(currentCustomer.getcustomerID()==enteredID)
                 return Optional.of(currentCustomer);
         }
 
@@ -118,11 +119,11 @@ public class Main {
         return Optional.empty();
     }
 
-    public void manageCustomer(String selectedCustomer)
+    public void manageCustomer(Object selectedCustomer)
     {
         Scanner secondScanner = new Scanner(System.in);
         while(true){
-            printCustomerMenu(selectedCustomer.getName());
+            printCustomerMenu(selectedCustomer.get.Name());
             var userChoice = secondScanner.nextInt();
             switch (userChoice){
                 case 1 ->addAddress(secondScanner, selectedCustomer);
@@ -136,12 +137,12 @@ public class Main {
         }
     }
 
-    private ShippingAddress pickAddress(Scanner secondScanner, String selectedCustomer) {
-        var customerAddresses = selectedCustomer.getAddresses();
-        if (customerAddresses.size() ==0){
+    private ShippingAddress pickAddress(Scanner secondScanner, Object selectedCustomer) {
+        var customerAddresses = selectedCustomer.Addresses();
+        if (customerAddresses.size() ==0){ //This error checking was not required
             System.out.println("This customer has no addresses on file, please add an address");
             addAddress(secondScanner,selectedCustomer);
-            return selectedCustomer.getAddresses().get(0);
+            return selectedCustomer.Addresses().get(0);
         }
 
         var count = 0;
@@ -162,8 +163,8 @@ public class Main {
             return customerAddresses.get(addressNum);
     }
 
-    private void addAddress(Scanner secondScanner, String selectedCustomer) {
-        System.out.println("Adding new address for "+ selectedCustomer.getName());
+    private void addAddress(Scanner secondScanner, Object selectedCustomer) {
+        System.out.println("Adding new address for "+ selectedCustomer.getClass());
         secondScanner.nextLine();
         System.out.print("Enter Address Line 1:");
         var line1 = secondScanner.nextLine();
@@ -179,6 +180,7 @@ public class Main {
         selectedCustomer.addAddress(newAddress);
     }
 
+    //Ask the Customer what they want to do
     private void printCustomerMenu(String custName) {
         System.out.println("What do you want to do for Customer " + custName+"?");
         System.out.println("   [1] Add Address to customer");
